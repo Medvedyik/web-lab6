@@ -6,7 +6,6 @@ session_start();
 $isLoggedIn = false;
 $userId = null;
 if (isset($_COOKIE[session_name()])) {
-    session_start();
     if (!empty($_SESSION['user_id'])) {
         $isLoggedIn = true;
         $userId = $_SESSION['user_id'];
