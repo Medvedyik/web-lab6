@@ -149,38 +149,40 @@ if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
     </div>
 
     <h2>Список заявок</h2>
-    <table>
-        <thead>
-            <tr><th>ID</th><th>Логин</th><th>ФИО</th><th>Телефон</th><th>Email</th><th>Дата рождения</th><th>Пол</th><th>Языки</th><th>Биография</th><th>Контракт</th><th>Создана</th><th>Обновлена</th><th>Действия</th></tr>
-        </thead>
-        <tbody>
-        <?php foreach ($applications as $app): ?>
-            <tr>
-                <td><?= $app['id'] ?></td>
-                <td><?= h($app['login']) ?></td>
-                <td><?= h($app['fio']) ?></td>
-                <td><?= h($app['phone']) ?></td>
-                <td><?= h($app['email']) ?></td>
-                <td><?= h($app['birth_date']) ?></td>
-                <td><?= $app['gender'] === 'male' ? 'Мужской' : 'Женский' ?></td>
-                <td><?= h($app['languages']) ?></td>
-                <td><?= h($app['biography']) ?></td>
-                <td><?= $app['contract_accepted'] ? 'Да' : 'Нет' ?></td>
-                <td><?= $app['created_at'] ?></td>
-                <td><?= $app['updated_at'] ?></td>
-                <td>
-                    <a href="admin.php?edit=<?= $app['user_id'] ?>">Редактировать</a><br>
-                    <form class="inline-form" method="post" onsubmit="return confirm('Удалить запись?');">
-                        <input type="hidden" name="action" value="delete">
-                        <input type="hidden" name="user_id" value="<?= $app['user_id'] ?>">
-                        <button type="submit" style="background:none; border:none; color:red; cursor:pointer;">Удалить</button>
-                    </form>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
-
+	<div class="table-wrapper">
+        <table>
+            <thead>
+                <tr><th>ID</th><th>Логин</th><th>ФИО</th><th>Телефон</th><th>Email</th><th>Дата рождения</th><th>Пол</th><th>Языки</th><th>Биография</th><th>Контракт</th><th>Создана</th><th>Обновлена</th><th>Действия</th></tr>
+            </thead>
+            <tbody>
+            <?php foreach ($applications as $app): ?>
+                <tr>
+                    <td><?= $app['id'] ?></td>
+                    <td><?= h($app['login']) ?></td>
+                    <td><?= h($app['fio']) ?></td>
+                    <td><?= h($app['phone']) ?></td>
+                    <td><?= h($app['email']) ?></td>
+                    <td><?= h($app['birth_date']) ?></td>
+                    <td><?= $app['gender'] === 'male' ? 'Мужской' : 'Женский' ?></td>
+                    <td><?= h($app['languages']) ?></td>
+                    <td><?= h($app['biography']) ?></td>
+                    <td><?= $app['contract_accepted'] ? 'Да' : 'Нет' ?></td>
+                    <td><?= $app['created_at'] ?></td>
+                    <td><?= $app['updated_at'] ?></td>
+                    <td>
+                        <a href="admin.php?edit=<?= $app['user_id'] ?>">Редактировать</a><br>
+                        <form class="inline-form" method="post" onsubmit="return confirm('Удалить запись?');">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="user_id" value="<?= $app['user_id'] ?>">
+                            <button type="submit" style="background:none; border:none; color:red; cursor:pointer;">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+	
     <?php if ($editData): ?>
         <div class="edit-form">
             <h2>Редактирование заявки пользователя <?= h($editData['login']) ?></h2>
