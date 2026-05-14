@@ -25,6 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $languages = $_POST['languages'] ?? [];
     $biography = trim($_POST['biography'] ?? '');
     $contract = isset($_POST['contract']) ? 1 : 0;
+	
+	// Проверка CSRF-токена
+	if (empty($_POST['csrf_token']) || !validateCsrfToken($_POST['csrf_token'])) {
+		die('Ошибка CSRF-проверки');
+	}
 
     $errors = validateFormData($fio, $phone, $email, $birth_date, $gender, $languages, $biography, $contract);
 
@@ -221,6 +226,7 @@ if ($isLoggedIn) {
         <div class="field">
             <button type="submit">Сохранить</button>
         </div>
+		<input type="hidden" name="csrf_token" value="<?= generateCsrfToken() ?>">
     </form>
 </div>
 </body>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'config.php';
 ?>
 <!DOCTYPE html>
@@ -13,12 +14,14 @@ require_once 'config.php';
     <h2>Вход для редактирования</h2>
     <?php
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		if (empty($_POST['csrf_token']) || !validateCsrfToken($_POST['csrf_token'])) {
+			die('Ошибка CSRF-проверки');
+		}
         $pdo = getDB();
         $stmt = $pdo->prepare("SELECT id, password_hash FROM users_lab5 WHERE login = ?");
         $stmt->execute([$_POST['login']]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($user && password_verify($_POST['pass'], $user['password_hash'])) {
-            session_start();
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['login'] = $_POST['login'];
             header('Location: index.php');
@@ -38,6 +41,7 @@ require_once 'config.php';
             <input type="password" name="pass" required>
         </div>
         <button type="submit">Войти</button>
+		<input type="hidden" name="csrf_token" value="<?= generateCsrfToken() ?>">
     </form>
     <p><a href="index.php">На главную</a></p>
 </div>
